@@ -1,8 +1,3 @@
-// ─── ChartPanel ───────────────────────────────────────────────────────────────
-// Three charts side-by-side: Market Cap bar, 7-Day price trend, Market dominance.
-// Each chart uses its own correctly-shaped options object.
-// memo() + useMemo inside means chart data only recomputes when coins/stats change.
-
 import React, { memo, useMemo } from "react";
 import { Bar, Line, Doughnut } from "react-chartjs-2";
 

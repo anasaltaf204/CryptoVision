@@ -108,7 +108,7 @@ export default function Navbar() {
                                     </span>
                                 </div>
                                 <button 
-                                    className="btn-logout py-2 px-4"
+                                    className="btn-logout py-2 px-3"
                                     onClick={handleLogout}
                                 >
                                         Logout

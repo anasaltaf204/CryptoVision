@@ -1,27 +1,3 @@
-"""
-data_pipeline.py
-================
-Crypto price forecasting — data ingestion, API interfaces, and feature engineering.
-
-Improvements over v1:
-  - Vectorized OBV (no Python loop — ~100x faster)
-  - CSV training cache keyed by SHA-256 (historical data never re-processed)
-  - Look-ahead bias guard in build_feature_matrix
-  - CoinGecko + Binance always fetch fresh (live data)
-  - Proper OHLC fill for CoinGecko (only has close/volume)
-  - Sentiment via VADER (free, no FinBERT dependency)
-  - Thread-safe rate limiter
-
-CSV format expected (Binance export):
-  open_time, open, high, low, close, volume, close_time, ...
-
-Rate limits:
-  CoinGecko   – 30 req/min (free)
-  Binance     – 1200 req/min weight
-  CryptoPanic – 5 req/s (free)
-  NewsAPI     – 100 req/day (free)
-"""
-
 from __future__ import annotations
 
 import hashlib

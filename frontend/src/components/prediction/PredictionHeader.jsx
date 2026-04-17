@@ -18,7 +18,7 @@ export default function PredictionHeader({ selectedCoin, lastUpdated, loading, b
                     )}
                 </div>
                 <p className="pred-subtitle">
-                    Ensemble model · Prophet · SARIMA · LSTM · Transformer · 95% confidence intervals
+                    Ensemble model · Prophet · SARIMA · LSTM · Transformer 
                 </p>
             </div>
             <div className="pred-header-right">

@@ -54,7 +54,7 @@ HORIZONS = [7, 30, 90, 180, 365]
 HORIZON_LABELS = ["1w", "1m", "3m", "6m", "1y"]
 
 # Number of MC Dropout forward passes for uncertainty estimation
-MC_SAMPLES = 20
+MC_SAMPLES = 50
 
 
 # ---------------------------------------------------------------------------

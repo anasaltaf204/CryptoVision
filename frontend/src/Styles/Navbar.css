@@ -40,7 +40,7 @@
         animation: slideDown 0.5s ease-out;
         position: relative;
         z-index: 1000;
-        padding: 1rem 0;
+        padding: 0.5rem 0;
         border-bottom: 2px solid #667eea;
     }
 
@@ -159,6 +159,7 @@
         padding: 0.6rem 1.2rem;
         border-radius: 8px;
         border: none;
+        font-size: 0.9rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;

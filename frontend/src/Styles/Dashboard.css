@@ -415,7 +415,7 @@
 .coin-row:last-child td { border-bottom: none; }
 
 .col-coin {
-  text-align: left;
+  text-align: left !important;
   font-family: var(--sans);
 }
 

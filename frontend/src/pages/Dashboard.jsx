@@ -1,6 +1,4 @@
-// ─── Dashboard ────────────────────────────────────────────────────────────────
-// Thin orchestrator: fetches nothing itself — delegates to useDashboard hook.
-// Each section is an isolated component; only the section that changes re-renders.
+
 
 import React from "react";
 import {
@@ -41,8 +39,6 @@ export default function Dashboard() {
     const activeCoin  = globalStats?.active_cryptocurrencies || 0;
     const mcapChange  = globalStats?.market_cap_change_percentage_24h_usd || 0;
 
-    // ── Sparklines derived entirely from coins[] — no extra API calls ──────────
-    // Market Cap card: sum of top-10 market caps across each sparkline hour
     const mcapPrices = (() => {
         const top10 = coins.slice(0, 10);
         if (!top10.length || !top10[0]?.sparkline_in_7d?.price?.length) return [];
@@ -52,7 +48,7 @@ export default function Dashboard() {
         );
     })();
 
-    // Volume card: use top-3 coins' sparklines summed as a volume-shape proxy
+
     const volPrices = (() => {
         const top3 = coins.slice(0, 3);
         if (!top3.length || !top3[0]?.sparkline_in_7d?.price?.length) return [];
@@ -62,11 +58,10 @@ export default function Dashboard() {
         );
     })();
 
-    // BTC Dominance sparkline — use BTC's own 7d sparkline from coins list
+
     const btcCoin     = coins.find(c => c.id === "bitcoin");
     const btcPrices   = btcCoin?.sparkline_in_7d?.price || [];
-    // Dominance as a proxy: BTC price movement ≈ dominance movement trend
-    // For Active Coins we show top-20 24h change as a bar-like trend
+
     const top20Changes = coins.map(c => c.price_change_percentage_24h ?? 0);
 
     return (
