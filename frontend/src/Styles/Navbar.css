@@ -222,15 +222,16 @@
         transition: all 0.3s ease;
     }
 
-    .custom-toggler:not(.collapsed) .toggler-icon span:nth-child(1) {
-        transform: rotate(45deg) translate(10px, 10px);
+    .custom-toggler[data-open='true'] .toggler-icon span:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
     }
 
-    .custom-toggler:not(.collapsed) .toggler-icon span:nth-child(2) {
+    .custom-toggler[data-open='true'] .toggler-icon span:nth-child(2) {
         opacity: 0;
+        transform: scaleX(0);
     }
 
-    .custom-toggler:not(.collapsed) .toggler-icon span:nth-child(3) {
+    .custom-toggler[data-open='true'] .toggler-icon span:nth-child(3) {
         transform: rotate(-45deg) translate(8px, -8px);
     }
 
