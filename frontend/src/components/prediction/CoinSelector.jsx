@@ -1,5 +1,5 @@
 import React from "react";
-import { COINS } from "../../hooks/usePrediction";
+import { COINS } from "../../constants/prediction";
 
 export default function CoinSelector({ selected, onSelect, disabled, trainedCoins }) {
     return (

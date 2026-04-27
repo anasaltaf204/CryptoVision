@@ -4,7 +4,7 @@ import {
     PointElement, LineElement, Tooltip, Legend, Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { MODELS } from "../../hooks/usePrediction";
+import { MODELS } from "../../constants/prediction";
 import { fmtPrice } from "./utils";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler);

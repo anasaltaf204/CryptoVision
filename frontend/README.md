@@ -228,6 +228,7 @@ Every time you want to run the project again:
 ```bash
 # Terminal 1 — Backend
 cd fastapi_backend
+python -m venv .venv
 .venv\Scripts\activate        # Windows
 # source .venv/bin/activate   # Mac/Linux
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload

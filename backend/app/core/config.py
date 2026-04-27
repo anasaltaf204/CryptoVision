@@ -23,9 +23,12 @@ class Settings:
     NEWSAPI_KEY:          str = os.getenv("NEWSAPI_KEY", "")
 
     # ── Model settings ──────────────────────────────────────────────────────
-    WINDOW:          int  = int(os.getenv("WINDOW", "30"))
-    EPOCHS:          int  = int(os.getenv("EPOCHS", "50"))
-    OPTUNA_TRIALS:   int  = int(os.getenv("OPTUNA_TRIALS", "15"))
+    # IMPROVEMENT: window increased to 60 (more temporal context)
+    # IMPROVEMENT: epochs increased to 150 (models were underfitting at 50)
+    # IMPROVEMENT: optuna_trials increased to 20 (better hyperparameter search)
+    WINDOW:          int  = int(os.getenv("WINDOW", "60"))
+    EPOCHS:          int  = int(os.getenv("EPOCHS", "150"))
+    OPTUNA_TRIALS:   int  = int(os.getenv("OPTUNA_TRIALS", "20"))
     RUN_OPTUNA:      bool = os.getenv("RUN_OPTUNA", "true").lower() == "true"
     ENABLE_PROPHET:  bool = os.getenv("ENABLE_PROPHET", "true").lower() == "true"
     ENABLE_SARIMA:   bool = os.getenv("ENABLE_SARIMA", "true").lower() == "true"
@@ -33,13 +36,11 @@ class Settings:
     ENABLE_TRANSFORMER: bool = os.getenv("ENABLE_TRANSFORMER", "true").lower() == "true"
 
     # ── Storage ─────────────────────────────────────────────────────────────
-    # Path to the folder containing BTC.csv, ETH.csv, etc.
     DATA_DIR:        str  = os.getenv("DATA_DIR", str(Path(__file__).parent.parent.parent / "data"))
     CACHE_DIR:       str  = os.getenv("CACHE_DIR", ".cache")
     MODEL_CACHE_DIR: str  = os.getenv("MODEL_CACHE_DIR", ".model_cache")
 
     # ── CORS ────────────────────────────────────────────────────────────────
-    # Comma-separated list in env, e.g. "http://localhost:5173,https://myapp.vercel.app"
     ALLOWED_ORIGINS: List[str] = [
         o.strip()
         for o in os.getenv(

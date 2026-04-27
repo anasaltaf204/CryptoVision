@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { MODELS, HORIZON_LABELS } from "../../hooks/usePrediction";
+import { MODELS, HORIZON_LABELS } from "../../constants/prediction";
 import { fmtPrice, fmtPct, calcChange } from "./utils";
 
 function ChangeCell({ current, forecast }) {

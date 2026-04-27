@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate, faBrain } from "@fortawesome/free-solid-svg-icons";
-import { COINS } from "../../hooks/usePrediction";
+import { COINS } from "../../constants/prediction";
 
 export default function PredictionHeader({ selectedCoin, lastUpdated, loading, backendReady, onRefresh }) {
     const coin = COINS.find(c => c.symbol === selectedCoin);

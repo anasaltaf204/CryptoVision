@@ -1,110 +1,91 @@
-// ─── useDashboard hook ────────────────────────────────────────────────────────
-// Centralises ALL data fetching for the dashboard in one place.
-// Components subscribe to slices of this data — no component calls the API
-// itself, which eliminates duplicate requests and full-page re-renders.
-//
-// Pattern:
-//   1. On mount, load from cache instantly (no spinner).
-//   2. Fire all API calls in parallel.
-//   3. Update each slice independently as it resolves.
-//   4. Auto-refresh every 5 minutes via setInterval.
+/**
+ * hooks/useDashboard.js
+ *
+ * Thin hook over the Redux dashboard slice.
+ *
+ * Changes from original:
+ *  - Data fetching is now done via dispatched thunks (loadCoins, loadGlobalStats,
+ *    loadTrending) instead of calling service functions directly.
+ *  - Component state (coins, globalStats, trending, status) is read from the
+ *    Redux store via useSelector, so any component can subscribe without
+ *    triggering duplicate fetches.
+ *  - The auto-refresh interval and the manual refresh() function remain here
+ *    because they are side-effects, not store state.
+ *  - isRefreshing is tracked locally — it's transient UI feedback, not shared
+ *    data that other components care about.
+ */
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-    fetchCoins,
-    fetchGlobalStats,
-    fetchTrending,
-} from "../services/coingecko";
+    loadCoins,
+    loadGlobalStats,
+    loadTrending,
+    setLastUpdated,
+    selectCoins,
+    selectGlobalStats,
+    selectTrending,
+    selectDashboardMeta,
+} from "../store/slices/dashboardSlice";
 
 const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 min
 
 export function useDashboard() {
-    const [coins, setCoins] = useState([]);
-    const [globalStats, setGlobalStats] = useState(null);
-    const [trending, setTrending] = useState([]);
+    const dispatch     = useDispatch();
+    const coins        = useSelector(selectCoins);
+    const globalStats  = useSelector(selectGlobalStats);
+    const trending     = useSelector(selectTrending);
+    const meta         = useSelector(selectDashboardMeta);
 
-    // Per-slice loading & error — no single spinner blocks everything
-    const [status, setStatus] = useState({
-        coins: "idle",        // "idle" | "loading" | "ready" | "error"
-        global: "idle",
-        trending: "idle",
-    });
-    const [isStale, setIsStale] = useState(false);
-    const [lastUpdated, setLastUpdated] = useState(null);
     const [isRefreshing, setIsRefreshing] = useState(false);
-
     const intervalRef = useRef(null);
 
-    const updateStatus = (key, val) =>
-        setStatus((prev) => ({ ...prev, [key]: val }));
+    const loadAll = useCallback(
+        async (isManualRefresh = false) => {
+            if (isManualRefresh) setIsRefreshing(true);
 
-    const loadAll = useCallback(async (isManualRefresh = false) => {
-        if (isManualRefresh) setIsRefreshing(true);
+            // Fire all three thunks in parallel — each updates its own slice
+            await Promise.allSettled([
+                dispatch(loadCoins(20)),
+                dispatch(loadGlobalStats()),
+                dispatch(loadTrending()),
+            ]);
 
-        let anyStale = false;
+            dispatch(setLastUpdated());
+            if (isManualRefresh) setIsRefreshing(false);
+        },
+        [dispatch]
+    );
 
-        // Fire all 4 requests in parallel — each updates its own slice
-        const tasks = [
-            fetchCoins(20)
-                .then(({ data, stale }) => {
-                    setCoins(data);
-                    updateStatus("coins", "ready");
-                    if (stale) anyStale = true;
-                })
-                .catch(() => updateStatus("coins", "error")),
-
-            fetchGlobalStats()
-                .then(({ data, stale }) => {
-                    setGlobalStats(data);
-                    updateStatus("global", "ready");
-                    if (stale) anyStale = true;
-                })
-                .catch(() => updateStatus("global", "error")),
-
-            fetchTrending()
-                .then(({ data, stale }) => {
-                    setTrending(data);
-                    updateStatus("trending", "ready");
-                    if (stale) anyStale = true;
-                })
-                .catch(() => updateStatus("trending", "error")),
-        ];
-
-        // Set loading state only for slices not yet populated
-        setStatus((prev) => ({
-            coins:    prev.coins    === "ready" ? "ready" : "loading",
-            global:   prev.global   === "ready" ? "ready" : "loading",
-            trending: prev.trending === "ready" ? "ready" : "loading",
-        }));
-
-        await Promise.allSettled(tasks);
-
-        setIsStale(anyStale);
-        setLastUpdated(new Date());
-        if (isManualRefresh) setIsRefreshing(false);
-    }, []);
-
-    // Initial load
+    // Initial load + auto-refresh
     useEffect(() => {
         loadAll();
         intervalRef.current = setInterval(() => loadAll(), REFRESH_INTERVAL);
         return () => clearInterval(intervalRef.current);
     }, [loadAll]);
 
-    const refresh = () => loadAll(true);
+    const refresh = useCallback(() => loadAll(true), [loadAll]);
 
-    // Convenience booleans for components
+    // Convenience flag: true only during the very first load with no cached data
     const isInitialLoad =
-        status.coins === "loading" && coins.length === 0;
+        meta.coinsStatus === "loading" && coins.length === 0;
+
+    // Unified status object matching the shape the original hook returned,
+    // so Dashboard.jsx requires zero changes to its destructuring.
+    const status = {
+        coins:    meta.coinsStatus,
+        global:   meta.globalStatus,
+        trending: meta.trendingStatus,
+    };
 
     return {
         coins,
         globalStats,
         trending,
         status,
-        isStale,
+        isStale:      meta.isStale,
         isRefreshing,
-        lastUpdated,
+        lastUpdated:  meta.lastUpdated ? new Date(meta.lastUpdated) : null,
         isInitialLoad,
         refresh,
     };

@@ -127,9 +127,9 @@ export default function Prediction() {
                                 </>
                             ) : (
                                 <>
-                                    {/* <ModelAccuracyCards
+                                    <ModelAccuracyCards
                                         validationMetrics={data?.validation_metrics}
-                                    /> */}
+                                    /> 
                                     <IndicatorsGrid
                                         indicators={data?.indicators}
                                     />

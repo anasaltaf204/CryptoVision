@@ -1,5 +1,5 @@
 import React from "react";
-import { ALL_HORIZONS, HORIZON_LABELS, MODELS } from "../../hooks/usePrediction";
+import { ALL_HORIZONS, HORIZON_LABELS, MODELS } from "../../constants/prediction";
 
 export default function PredictionControls({ activeHorizons, toggleHorizon, visibleModels, toggleModel, showCI, setShowCI }) {
     return (

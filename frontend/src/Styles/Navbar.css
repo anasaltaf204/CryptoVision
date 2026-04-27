@@ -302,3 +302,61 @@
     .auth-buttons .btn-signup {
         animation: slideInRight 0.5s ease-out;
     }
+/* ── Dynamic user avatar (photo support) ─────────────────────────────────── */
+
+.user-avatar--photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(102, 126, 234, 0.5);
+    animation: none;
+}
+
+/* Shimmer skeleton for avatar while loading */
+.user-avatar--skeleton {
+    background: linear-gradient(90deg, #2a2a4a 25%, #3a3a5a 50%, #2a2a4a 75%);
+    background-size: 200px 100%;
+    animation: nav-shimmer 1.2s infinite linear;
+}
+
+@keyframes nav-shimmer {
+    0%   { background-position: -200px 0; }
+    100% { background-position:  200px 0; }
+}
+
+/* Skeleton placeholder for display name */
+.skeleton-text {
+    display: inline-block;
+    width: 70px;
+    height: 12px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #2a2a4a 25%, #3a3a5a 50%, #2a2a4a 75%);
+    background-size: 200px 100%;
+    animation: nav-shimmer 1.2s infinite linear;
+    vertical-align: middle;
+}
+
+/* Clickable user profile button replacing the old div */
+.user-profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: transparent;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 40px;
+    padding: 0.3rem 0.9rem 0.3rem 0.3rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+}
+
+.user-profile-btn:hover {
+    background: rgba(102, 126, 234, 0.1);
+    border-color: rgba(102, 126, 234, 0.5);
+    transform: translateY(-1px);
+}
+
+.user-profile-btn--loading {
+    pointer-events: none;
+}

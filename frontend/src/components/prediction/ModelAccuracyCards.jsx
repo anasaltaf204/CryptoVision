@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { MODELS } from "../../hooks/usePrediction";
+import { MODELS } from "../../constants/prediction";
 
 const HORIZON_ORDER = ["1w", "1m", "3m", "6m", "1y"];
 
