@@ -1,4 +1,4 @@
-# 🔮 CryptoPredict AI
+# 🔮 CryptoVision AI
 
 > AI-powered cryptocurrency price forecasting with an ensemble of machine learning models — Prophet, SARIMA, LSTM, and Transformer — served through a FastAPI backend and a React frontend.
 
