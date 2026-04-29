@@ -6,7 +6,7 @@
 
 ## 📸 Overview
 
-CryptoPredict AI lets users view live crypto market data, explore technical indicators, and get multi-horizon price forecasts with 95% confidence intervals for **BTC, ETH, BNB, SOL, and XRP**.
+CryptoVision AI lets users view live crypto market data, explore technical indicators, and get multi-horizon price forecasts with 95% confidence intervals for **BTC, ETH, BNB, SOL, and XRP**.
 
 | Feature | Details |
 |---|---|
